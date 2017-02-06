@@ -1,9 +1,14 @@
-body {
+.App {
   margin: 0;
   padding: 0;
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway', sans-serif !important;
 }
 
-.header {
-  font-family: 'Luckiest Guy', cursive;
+.header, .navbar-brand, .h1, .h2,.h3,.h4,.h5, .h6 {
+  font-family: 'Luckiest Guy', cursive !important;
+}
+
+input[type="color"] {
+    height: 50px;
+    width: 200px;
 }

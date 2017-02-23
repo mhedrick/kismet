@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, NavbarBrand } from 'reactstrap';
 import Adorable from './Adorable';
+import Switch from './Switch';
 
 //
 
@@ -8,14 +9,19 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      eyes: 0,
+      nose: 0,
+      mouth: 0,
+      color: '#ffff00',
       face: {
         eyes: [],
         nose: [],
         mouth: []
-      },
-      color: '#ffff00'
-    };
+    }};
+
     this.changeColor = this.changeColor.bind(this);
+    this.goDown = this.goDown.bind(this)
+    this.goUp = this.goUp.bind(this)
   }
   componentDidMount() {
     let xhr = new XMLHttpRequest();
@@ -30,6 +36,30 @@ class App extends Component {
   changeColor(event) {
     this.setState({ color: event.target.value });
   }
+  goUp(prop){
+    let obj = {};
+    let index = this.state[prop];
+    let max = this.state.face[prop].length-1;
+    
+      if (index === max)
+          obj[prop] = 0;
+      else
+          obj[prop] = index + 1;
+
+      this.setState(obj);
+  }
+  goDown(prop){
+    let obj = {};
+    let index = this.state[prop];
+    let max = this.state.face[prop].length-1;
+    
+      if (index !== 0)
+          obj[prop] = index - 1;
+      else
+          obj[prop] = max;
+
+      this.setState(obj);
+  }
   render() {
     return (
       <div className="App">
@@ -38,20 +68,19 @@ class App extends Component {
         </Navbar>
         <div className="mt-3 container justify-content-md-center">
           <div className="row justify-content-md-center">
-            <div className="col-md d-flex align-items-end justify-content-between flex-column">
-              <button type="button" className="btn btn-primary btn-sm"><i className="fa fa-chevron-left"></i></button>
-              <button type="button" className="btn btn-primary btn-sm"><i className="fa fa-chevron-left"></i></button>
-              <button type="button" className="btn btn-primary btn-sm"><i className="fa fa-chevron-left"></i></button>
-            </div>
-            <Adorable color={this.state.color} />
-            <div className="col-md d-flex align-items-start justify-content-between flex-column">
-              <button type="button" className="btn btn-primary btn-sm"><i className="fa fa-chevron-right"></i></button>
-              <button type="button" className="btn btn-primary btn-sm"><i className="fa fa-chevron-right"></i></button>
-              <button type="button" className="btn btn-primary btn-sm"><i className="fa fa-chevron-right"></i></button>
-            </div>
+            <Adorable color={this.state.color} eyes={this.state.face.eyes[this.state.eyes]} nose={this.state.face.nose[this.state.nose]} mouth={this.state.face.mouth[this.state.mouth]}  />
           </div>
           <div className="row justify-content-md-center mt-1">
             <input className="form-control" type="color" value={this.state.color} onChange={this.changeColor} />
+          </div>
+          <div className="row justify-content-md-center mt-1">
+            <Switch name={'eyes'} goDown={this.goDown} goUp={this.goUp} />
+          </div>
+          <div className="row justify-content-md-center mt-1">
+            <Switch name={'nose'} goDown={this.goDown} goUp={this.goUp} />
+          </div>
+          <div className="row justify-content-md-center mt-1">
+            <Switch name={'mouth'} goDown={this.goDown} goUp={this.goUp} />
           </div>
         </div>
       </div>
